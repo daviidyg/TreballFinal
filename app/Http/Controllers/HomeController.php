@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+use App\Figura;
+use App\Noticias;
+use DB;
 class HomeController extends Controller
 {
     /**
@@ -23,6 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $noticiaportada = DB::table('noticias')->orderByRaw('id_noticias DESC')->get();        
+        $noticiaencontrada = Noticias::find($noticiaportada[0]->id_noticias);
+        $figurasencontradas = Figura::orderby('id_figuras');
+        $figuras = Figura::orderBy('id_figuras', 'desc')->take(3)->get();
+        return view('home',['noticiaencontrada'=> $noticiaencontrada,'figuras' => $figuras]);
     }
 }

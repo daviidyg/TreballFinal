@@ -1,17 +1,6 @@
-    ///DATA TABLES///
-    $(document).ready( function () {
-      $('#table_id').DataTable();
-      table.on('click', '.edit', function(){
-        var id = $(this).attr('id');
-        $('#Editar').html('');
-        $.ajax({
-          url:"/add/figuras/edit"+id,
-          dataType:"json",
-          success:function(html){
-          }
-        })
-      })
-     } )
+$(document).ready(function () {
+  $('#test').dynatable();
+  });
      
 
 /******/ (function(modules) { // webpackBootstrap
@@ -109,7 +98,188 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+  $(document).on('click', '#AñadirinventarioFiguras', function () {
+    var id = $(this).data('id');
+      console.log(id);
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+      $.ajax(
+        {
+          url:"/perfil/pintura",
+          method:'post',
+          data:{
+            id_pintura: id,
+          },
+          dataType:'json',
+          success: function(data){
+              console.log(data);
+              window.location.reload();          }
+        }
+      )
+    });
 
+
+  $(document).on('click', '#Añadirinventario', function () {
+    var id = $(this).data('id');
+      console.log(id);
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+      $.ajax(
+        {
+          url:"/perfil/pintura",
+          method:'post',
+          data:{
+            id_pintura: id,
+          },
+          dataType:'json',
+          success: function(data){
+              console.log(data);
+              window.location.reload();          }
+        }
+      )
+    });
+
+  $(document).on('click', '#EditarMiniatura', function () {
+    var id = $(this).data('id');
+    
+    console.log(id)
+    $.ajax(
+      {
+        url:"/add/figuras/ajax/"+id,
+        method:'get',
+        data:{id_figuras:id},
+        dataType:'json',
+        success:function(data){
+          $(".Nombre").val(data.Nombre);
+          $('.Alianza').val(data.Alianza);
+          $('.Ejercito').val(data.Ejercito);
+          $('.Precio').val(data.Precio);
+          $('.id').val(id);
+        }
+      }
+    )
+    });
+    $(document).on('click', '#Eliminarminiatura', function (){
+      var id = $(this).data("id");
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+      $.ajax(
+      {
+          url: "/add/figuras/delete/"+id,
+          type: 'delete', // replaced from put
+          dataType: "JSON",
+          data: {
+              "id": id // method and token not needed in data
+          },
+          success: function(msg) {
+            window.location.reload();          
+
+        }
+    
+      });
+  });
+  $(document).on('click', '#Eliminarinventario', function (){
+      var tr = $(this).closest('tr');
+      var id = $(this).data("id");
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+      $.ajax(
+      {
+          url: "/profile/ajaxdelete/"+id,
+          type: 'delete', // replaced from put
+          dataType: "JSON",
+          data: {
+              "id": id // method and token not needed in data
+          },
+          success: function(msg) {
+            $('#'+id).remove();
+            
+        }
+    
+      });
+  });
+  $(document).on('click', '#btn-pdf', function (){
+    var id = $(this).data("id");
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax(
+    {
+        url: "/add/figuras/pdf/upload"+id,
+        type: 'delete', // replaced from put
+        dataType: "JSON",
+        data: {
+            "id": id // method and token not needed in data
+        },
+        success: function(msg) {
+      }
+  
+    });
+});
+  $("#EliminarPintura").click(function(){
+    var tr = $(this).closest('tr');
+    var id = $(this).data("id");
+    var tr = '#'+id;
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax(
+    {
+        url: "/add/pinturas/delete/"+id,
+        type: 'delete', // replaced from put
+        dataType: "JSON",
+        data: {
+            "id": id // method and token not needed in data
+        },
+        success: function(msg) {
+          $('#'+id).remove();
+      }
+  
+    });
+});
+
+
+   $(document).on("click", "#btn-delete", function (e) { 
+    var $button = $(this);
+    e.preventDefault();
+    if ( confirm( "¿Seguro que quieres eliminar esta figura?" ) ){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    console.log($(this).data('id'))
+    // confirm then
+    $.ajax({
+        url: '/add/figuras/delete/'+$(this).data('id'),
+        type: 'DELETE',
+        dataType: 'json',
+        data: {method: '_DELETE', submit: true, id_figuras:$(this).data('id')},
+        success: function(msg) {
+          $('#'+id).remove();
+        },
+        error: function(status)
+        {
+            console.log(status);
+        } 
+    });
+  }});
 
 module.exports = __webpack_require__(/*! ./lib/axios */ "./node_modules/axios/lib/axios.js");
 

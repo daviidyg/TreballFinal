@@ -14,19 +14,19 @@
         </div>
     </div>
     <div class="container">
-      <div class="row mb-2">
+      <div class="row mb-2 mt-5">
           @foreach ($noticias as $noticia)
-                          <div class="col-md-6">
+            <div class="col-md-6">
               <div class="card flex-md-row mb-4 box-shadow h-md-250">
                 <div class="card-body d-flex flex-column align-items-start">
                   <h3 class="mb-0">
-                  <a class="text-dark" href="#">{{$noticia->titulo_noticia}}</a>
+                  <a class="text-dark" href="{{url('/noticias/'.$noticia->id_noticias)}}">{{$noticia->titulo_noticia}}</a>
                   </h3> 
                   <div class="mb-1 text-muted">{{$noticia->autor}}</div>
                     <p class="card-text mb-auto">{{$noticia->subtitulo_noticia}}</p>
-                  <a href="#">Continuar leyendo</a>
+                  <a href="{{url('/noticias/'.$noticia->id_noticias)}}">Continuar leyendo</a>
                 </div>
-                <img  class="card-img-right flex-auto d-none d-md-block" style="width: 250px; height: 250px;" src="{{URL::asset('/noticias/'.$noticia->portada_imagen)}}" alt="profile Pic">
+                <img  class="card-img-right flex-auto d-none d-md-block" style="width: 250px; height: 250px;" src="{{URL::asset('/noticias/'.$noticia->	imagen_contenido_noticia)}}" alt="profile Pic">
             </div>
             </div>
             @endforeach 

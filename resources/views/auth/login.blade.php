@@ -1,15 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.login')
 
  @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="mt-5 col-md-6" style="margin-top:15%">
             <div class="card">
-                <div class="card-header">
-                    <img src="https://i.imgur.com/Z6GgJMp.png" alt="" style="height:50%; width:50%">
+                <div class="card-title">
+                        <img src="/logo.png" class="mx-auto d-block"  alt="" height="40%" width="40%">
                 </div>
-
-                <div class="card-body">
+                <div class="card-body ">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -53,17 +52,17 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                        <div class="form-group row mt-2 mb-4 d-flex justify-content-center ">
+                            <div class="center-block col-md-8 ">
+                                <button type="submit" class="btn btn-primary btn-block">
                                     {{ __('Login') }}
                                 </button>
 
-                                @if (Route::has('password.request'))
+                                {{-- @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
-                                @endif
+                                @endif --}}
                             </div>
                         </div>
                     </form>
@@ -71,6 +70,6 @@
             </div>
         </div>
     </div>
-</div> --}}
+</div> 
        
 @endsection

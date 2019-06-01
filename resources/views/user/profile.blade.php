@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('content')
 <div class="container-fluid">
@@ -25,98 +25,57 @@
             </ul>
         </div>
         @endif
-        <div style=" border-bottom:1px solid black ; background-size: cover; background-image: url('/miniaturas/155868951922.jpg')"
+    <div style=" border-bottom:1px solid black ; background-size: cover; background-image: url('perfiles/{{Auth::user()->banner}}')"
             class="col-12">
             <div class="row">
                 <div class="col-12 col-md-2">
                     <img class="m-4 " style="height:20vh; width:25vh; border-radius:50%"
-                        src="/miniaturas/1558686776.jpg" />
+                        src="perfiles/{{Auth::user()->avatar}}" />
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             Ajustes
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item" href="/profile/datos">Datos de la cuenta</a>
+                              <a class="dropdown-item" href="/profile/inventario">Inventario</a>
+                            </div>
+                          </div>
                     </div>
-
-                        <div style="color:white" class="col-12 col-md-10 mt-5">
+                    <div style="color:white" class="col-12 col-md-10 mt-5">
                     <h1>{{Auth::user()->name}}</h1>
                     <h5>{{Auth::user()->email}}</h5>
+                    </div>
                 </div>
-            </div>
         </div>
-        <div class="col-12 m-4">
+       
+        <div class="col-12 mt-3 mb-5">
             <div class="row">
                 <div class="col-12 mt-5 ">
-                    <h2 style="text-align:center">INVENTARIO</h2><a class="fas fa-plus"></a>
-                </div>
-                <div class="d-flex justify-content-center col-12 mt-5 mb-5">
-                                <form class="form-inline">
-                                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                                </form>
+                    <h2 style="text-align:center">INVENTARIO</h2>
                 </div>
             </div>
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-12 col-md-6 mb-5">
-                        <h1 style="text-align:center">Pinturas en el inventario</h1>
-                        <table class="table">
+                <div class="col-12 col-md-12">
+                        <table id="TableInventario" class="table">
                                 <thead>
                                   <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                      <th scope="col">Nombre pintura</th>
+                                      <th scope="col">Tipo pintura</th>
+                                      <th scope="col">Color</th>
+                                      <th scope="col">Precio</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                </div>
-                <div class="col-12 col-md-6">
-                        <h1 style="text-align:center">Lista de pinturas</h1>
-                        <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                  </tr>
+                                  @foreach($inventario as $inventario)
+                                  <tr id="{{$inventario->id}}">
+                                      <td>{{$inventario->nombre_pintura}}</td>
+                                      <td>{{$inventario->tipo_pintura}}</td>
+                                      <td style="background-color:{{$inventario->color}}"></td>
+                                      <td>{{$inventario->precio}}</td>
+                                    </tr> 
+                                  @endforeach
                                 </tbody>
                               </table>
                 </div>

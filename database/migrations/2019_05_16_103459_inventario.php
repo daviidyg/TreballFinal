@@ -13,11 +13,12 @@ class Inventario extends Migration
      */
     public function up()
     {
-        Schema::create('inventario', function (Blueprint $table) {
+        Schema::create('inventarios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('idusuario');
             $table->unsignedBigInteger('idpintura');
-            $table->foreign('idusuario', 'idpintura')->references('id','id_pintura')->on('users','pinturas');
+            $table->foreign('idusuario')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('idpintura')->references('id_pintura')->on('pinturas')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

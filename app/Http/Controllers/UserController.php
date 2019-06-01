@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-
+use App\Pintura;
+use App\Inventario;
+use DB;
+Use App\User;
 
 class UserController extends Controller
 {
@@ -17,8 +19,14 @@ class UserController extends Controller
     
     public function profile()
     {
-        $user = Auth::user();
-        return view('user.profile',compact('user',$user));
+        $user = Auth::user()->id;
+        $userencontrado = User::find($user);
+        $inventario = DB::table('pinturas')
+        ->select('inventarios.id','pinturas.id_pintura as id_pintura','pinturas.nombre_pintura as nombre_pintura', 'pinturas.tipo_pintura as tipo_pintura', 'pinturas.color as color' )
+        ->join('inventarios','inventarios.idpintura','pinturas.id_pintura')
+        ->where('inventarios.idusuario',$userencontrado->id)->get();
+        $pinturas = Pintura::all();
+        return view('user.inventario',compact(['user','pinturas','inventario','invid']));
     }
     public function update_avatar(Request $request){
         $request->validate([
@@ -41,8 +49,13 @@ class UserController extends Controller
 
     public function index()
     {
-        //
-        return view('user.profile');
+        $usuario = Auth::user();
+        $inventario = DB::table('pinturas')
+        ->select('inventarios.id','pinturas.precio as precio','pinturas.id_pintura as id_pintura',
+        'pinturas.nombre_pintura as nombre_pintura', 'pinturas.tipo_pintura as tipo_pintura', 'pinturas.color as color' )
+        ->join('inventarios','inventarios.idpintura','pinturas.id_pintura')
+        ->where('inventarios.idusuario',$usuario->id)->get();
+         return view('user.profile')->with('inventario',$inventario);
     }
 
     /**
@@ -95,14 +108,52 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        
+        return view('user.ajustes');
     }
     public function UpdateProfile(){
         return view('user.update');
     }
 
+    public function EditarUsuario(Request $request){
+
+        $user = Auth::user()->id;
+        $buscando = User::find($user);
+        $buscando->name = $request->input('nombre_usuario');
+        $buscando->email = $request->input('correo_electronico');
+        $buscando->save(); 
+       return redirect ('/profile')->with('status', 'La miniatura ha sido añadida.');          
+
+    }
+    public function addimages (Request $request){
+      
+        
+        if ($request->hasFile('image_perfil')) {
+            $usuario = Auth::user()->id; 
+            $user = User::find($usuario);
+            $avatar = $request->file('image_perfil');
+            $ci_extension = $avatar->getClientOriginalExtension();
+            $nombree = time().'avatar.'.$ci_extension;
+            $avatar->storeAs('/perfiles', $nombree);
+            $user->avatar=$nombree;
+            $user->save();
+            return redirect('/profile/datos');
+
+        }
+            $usuario = Auth::user()->id; 
+            $user = User::find($usuario);
+            $banner = $request->file('image_banner');
+            $ci_extension = $banner->getClientOriginalExtension();
+            $nombrebanner = time().'banner.'.$ci_extension;
+            $banner->storeAs('/perfiles', $nombrebanner);
+            $user->banner = $nombrebanner;
+            $user->save();
+            return redirect('/profile/datos');
+  
+    }
+    
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -112,5 +163,9 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function imagen (){
+
+        return view('user.perfilimagen');
     }
 }

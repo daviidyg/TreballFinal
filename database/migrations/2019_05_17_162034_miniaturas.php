@@ -20,6 +20,7 @@ class Miniaturas extends Migration
             $table->string('ejercito_figuras');
             $table->decimal('precio_figuras', 6, 2);
             $table->string('minifoto')->default('notfound.jpg');
+            $table->string('normas')->nullable();
             //$table->foreign('idusuario', 'idpintura')->references('id','id_pintura')->on('users','pinturas');
         });
     }

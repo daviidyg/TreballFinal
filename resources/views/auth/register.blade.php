@@ -1,12 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.login')
 
 @section('content')
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8 mt-3">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                    <div class="card-title">
+                            <img src="/logo.png" class="mx-auto mt-0 d-block"  alt="" height="30%" width="30%">
+                    </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
@@ -62,11 +64,11 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
+                        <div class="form-group row mb-2 mt-2">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                            {{ __('Registrar') }}
+                                        </button>
                             </div>
                         </div>
                     </form>

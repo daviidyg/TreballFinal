@@ -1,4 +1,4 @@
-@extends('layouts.registro')
+﻿@extends('layouts.registro')
 @section('content')
 <div class="container mt-4 mb-3" style="background-color:white">
     <div class="row">
@@ -44,15 +44,17 @@
                                                     <th>Tipo</th>
                                                     <th>Precio</th>
                                                     <th>Color</th>
+                                                    <th>Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                     @foreach ($pintura as $pintura)
-                                                <tr>
+                                                    <tr id="{{$pintura->id_pintura}}">
                                                     <td>{{$pintura->nombre_pintura}}</td>
                                                     <td>{{$pintura->tipo_pintura}}</td>
                                                     <td>{{$pintura->precio}}</td>
                                                     <td>{{$pintura->color}}</td>
+                                                    <td><button data-id="{{$pintura->id_pintura}}" id="EliminarPintura" type="submit"><i class="fas fa-times"></i></button></td>
                                                 </tr>     
                                                 @endforeach                 
                                             </tbody>

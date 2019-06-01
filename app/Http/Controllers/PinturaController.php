@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use DB;
 use Illuminate\Http\Request;
 use App\Pintura;
 use App\Http\Resources\Pintura as PinturaResources;
@@ -119,6 +119,7 @@ class PinturaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('pinturas')->where('id_pintura', $id)->delete();
+        return \Response::json(['msg' => 'Eliminado']);
     }
 }

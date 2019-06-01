@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.registro')
 
 @section('content')
 <section style="background-size:cover; background-image:url('https://images2.alphacoders.com/204/204300.jpg'); color: white"class="jumbotron text-center">

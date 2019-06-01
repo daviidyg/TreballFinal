@@ -33,7 +33,10 @@ class NoticiasController extends Controller
     {
         //
     }
-
+    public function MostrarNoticia($id_noticias){
+        $noticias = Noticias::where('id_noticias',$id_noticias)->get();
+        return view('post.noticiascompleta')->with("noticias",$noticias);    
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -51,11 +54,11 @@ class NoticiasController extends Controller
         $nuevousuario = User::find($usuario);
         $portada_imagen = $request->file('portada_imagen');
         $pi_extension = $portada_imagen->getClientOriginalExtension();
-        $nombre = time().'test1.'.$pi_extension;
+        $nombre = time().'portada.'.$pi_extension;
         $portada_imagen->storeAs('/noticias', $nombre);
         $contenido_imagen = $request->file('imagen_contenido_noticia');
         $ci_extension = $contenido_imagen->getClientOriginalExtension();
-        $nombree = time().'test2.'.$ci_extension;
+        $nombree = time().'contenido.'.$ci_extension;
         $contenido_imagen->storeAs('/noticias', $nombree);
         $NuevaNoticia = new Noticias(array(
             'titulo_noticia' => $request->get('titulo_noticia'),
